@@ -88,5 +88,85 @@ System.out.println();
             System.out.println("\nDeserialised catalog: ");
             loadedMovies.forEach(System.out::println);
             
+// System.out.println();
+// System.out.println();
+
+//             UserProfile user = new UserProfile("johndoe", "secret123", "john@example.com");
+//             System.out.println("Original User: " + user);
+
+//             //serialise 
+//             try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("resources/user.ser"))){
+//                 out.writeObject(user);
+//                 System.out.println("User has been serialised");
+//             }catch(IOException e){
+//                 e.printStackTrace();
+//             }
+
+//             //deserialise
+//             try(ObjectInputStream in = new ObjectInputStream(new FileInputStream("resources/user.ser"))){
+//                 UserProfile deserialiseUser = (UserProfile) in.readObject();
+//                 System.out.println("User has been deserialised");
+//                 System.out.println("Deserialised user: "+ deserialiseUser);
+//             }catch(IOException | ClassNotFoundException e){
+//                 e.printStackTrace();
+//             }
+
+System.out.println();
+System.out.println();
+
+            BankAccount bank = new BankAccount("16052004", "Marin Kitagawa", 12500.78, "GojoLo12");
+            System.out.println("Original Bank Account: " + bank);
+
+            //serialise
+            try(ObjectOutputStream oout = new ObjectOutputStream(new FileOutputStream("resources/bank.ser"))){
+                oout.writeObject(bank);
+                System.out.println("Bank Account has been serialised");
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+
+            //deserialise
+            try(ObjectInputStream inn = new ObjectInputStream(new FileInputStream("resources/bank.ser"))){
+                BankAccount deserialisedBankAccount = (BankAccount) inn.readObject();
+                System.out.println("Bank Account has been deserialised");
+                System.out.println("Deserialised bank account: " + deserialisedBankAccount);
+            }catch(IOException | ClassNotFoundException e){
+                e.printStackTrace();
+            }
+
+System.out.println();
+System.out.println();
+
+            List<Product> products = new ArrayList<>();
+            products.add(new Product("Laptop", 999.99));
+            products.add(new Product("Mouse", 29.99));
+
+            System.out.println("Original Products (Version 1): ");
+            products.forEach(System.out::println);
+
+            //serialise version 1
+            serializeProducts(products, "resources/products_v1.ser");
+
+            System.out.println("\nAttempting to deserialise with Version 2 class...");
+            deserializeProducts("resources/products_v1.ser");
+        }
+            private static void serializeProducts(List<Product> products, String filename){
+                try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))){
+                    out.writeObject(products);
+                    System.out.println("\nProducts have been serialised");
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            private static void deserializeProducts(String filename) {
+            try (ObjectInputStream in = new ObjectInputStream(
+                    new FileInputStream(filename))) {
+                List<Product> loadedProducts = (List<Product>) in.readObject();
+                System.out.println("Products have been deserialized");
+                loadedProducts.forEach(System.out::println);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
     }
 }
